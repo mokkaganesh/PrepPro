@@ -262,9 +262,13 @@ function Interview({ params }) {
         </div>
       </div>
       <div className="flex justify-end items-end">
-        <Link href={`/dashboard/interview/${params?.interviewId}/start`}>
-          <Button onClick={() => sendMailFunction()}>Start Interview</Button>
-        </Link>
+      {webCamEnabled ? 
+      <Link href={`/dashboard/interview/${params?.interviewId}/start`}>
+        <Button onClick={() => sendMailFunction()} >Start Interview</Button>  
+      </Link>  :
+      <Button onClick={()=>alert("enable webcam to start")} >Start Interview</Button>}
+
+        
       </div>
     </div>
   );
