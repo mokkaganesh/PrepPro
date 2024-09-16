@@ -154,12 +154,12 @@ function Interview({ params }) {
       alert("Multiple people or a device detected! Please ensure only one person is present and no devices are visible.");
     }
   };
-  /*if(countOfMalpractice >= 3) {
+  if(countOfMalpractice >= 3) {
     alert("Multiple malpractices detected. Ending interview.");
     // End the interview here
     router.push(`/dashboard/interview/${params?.interviewId}/feedback`);
   }
-  console.log("Count of malpractice: ", countOfMalpractice); */
+  console.log("Count of malpractice: ", countOfMalpractice); 
 
 
   // Draw the bounding boxes for the detected objects directly on the webcam
