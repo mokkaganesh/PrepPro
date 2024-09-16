@@ -87,6 +87,7 @@ import { Button } from "@/components/ui/button";
 import * as tf from "@tensorflow/tfjs";
 import * as cocoSsd from "@tensorflow-models/coco-ssd";
 import { useUser } from "@clerk/nextjs";
+import {  useRouter } from "next/navigation";
 
 function Interview({ params }) {
   const [interviewDetails, setInterviewDetails] = useState();
@@ -96,6 +97,10 @@ function Interview({ params }) {
   const canvasRef = useRef(null);
   const user=useUser().user;
   console.log(user);
+  const router = useRouter();
+
+
+  const [countOfMalpractice, setCountOfMalpractice] = useState(0);
 
   useEffect(() => {
     console.log(params?.interviewId);
@@ -136,17 +141,26 @@ function Interview({ params }) {
   // Function to check for more than one person or specific devices
   const checkForMultiplePersonsOrDevices = (predictions) => {
     const personCount = predictions.filter(pred => pred.class === "person").length;
-    const deviceDetected = predictions.some(pred => ["cell phone", "laptop"].includes(pred.class));
+    const deviceDetected = predictions.some(pred => ["cell phone", "laptop" ,"remote" ,"mobile"].includes(pred.class));
 
     if(personCount === 0) {
+        setCountOfMalpractice((prevCount) => prevCount + 1);
         alert("No person detected! Please ensure you are visible in the camera.");
-    }
-
-    
+      }
+      
+      
     if (personCount > 1 || deviceDetected) {
+      setCountOfMalpractice((prevCount) => prevCount + 1);
       alert("Multiple people or a device detected! Please ensure only one person is present and no devices are visible.");
     }
   };
+  /*if(countOfMalpractice >= 3) {
+    alert("Multiple malpractices detected. Ending interview.");
+    // End the interview here
+    router.push(`/dashboard/interview/${params?.interviewId}/feedback`);
+  }
+  console.log("Count of malpractice: ", countOfMalpractice); */
+
 
   // Draw the bounding boxes for the detected objects directly on the webcam
   const drawPredictions = (predictions) => {

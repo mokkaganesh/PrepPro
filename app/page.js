@@ -13,6 +13,13 @@ export default function Home() {
       <Link href={`/dashboard`}>
         <Button>Click me</Button>
       </Link>
+       {/* <Link href={`/home`}>
+        <Button>payment</Button>
+       </Link> */}
+       <Link href={`/matchedskills`}>
+        <Button>you matched skills</Button>
+       </Link>
+
 
 
     </div>
