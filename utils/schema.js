@@ -1,4 +1,4 @@
-import { serial, varchar,text, pgTable} from "drizzle-orm/pg-core";
+import { serial, varchar,text,json, pgTable} from "drizzle-orm/pg-core";
 
 
 export const MockInterview =pgTable('mockInterview', {
@@ -24,3 +24,14 @@ export const UserAnswer =pgTable('userAnswer', {
     userEmail:varchar('userEmail'),
     createdAt:varchar('createdAt'),
 })
+
+export const MockExam = pgTable('mockExam',{
+    id:serial('id').primaryKey(),
+    mockExamId:varchar('mockId').notNull(),
+    createdAt:varchar('createdAt'),
+    createdBy:varchar('createdBy').notNull(),
+    examQuestions: json('examQuestions') // Adding JSON column for exam questions
+});
+
+// npm run db:push 
+//to add the database 
