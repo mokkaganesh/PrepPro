@@ -191,6 +191,7 @@ import { useState, useEffect } from "react";
 import db from "@/utils/db";
 import { ne } from "drizzle-orm";
 import { MockInterview } from "@/utils/schema";
+import GlobalApi from "@/utils/GlobalApi";
 
 // Assume you have your own skills as a reference
 const yourSkills = ['javascript', 'react', 'nodejs', 'html', 'css', 'python'];
@@ -269,6 +270,8 @@ function MatchingPeopleTable() {
     const updatedInvites = [...invitesSent];
     updatedInvites[index] = true;
     setInvitesSent(updatedInvites);
+
+    GlobalApi.sendEmailThroughClerk("2110040122@klh.edu.in");
   };
 
   return (
