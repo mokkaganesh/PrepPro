@@ -22,7 +22,7 @@ import { useRouter } from "next/navigation";
 import Select from 'react-select';
 
 
-function AddNewInterview() {
+function AddNewExam() {
 
     const [isOpen, setIsOpen] = useState(false);
     const [jobPosition, setJobPostion] = useState();
@@ -175,4 +175,4 @@ give the data in the form of json`;
   )
 }
 
-export default AddNewInterview
+export default AddNewExam
