@@ -19,7 +19,7 @@ export default function Home() {
        {/* <Link href={`/home`}>
         <Button>payment</Button>
        </Link> */}
-       <Link href={`/matchedskills`}>
+       <Link href={`/dashboard/matchedskills`}>
         <Button>you matched skills</Button>
        </Link>
 

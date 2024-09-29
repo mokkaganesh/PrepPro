@@ -128,7 +128,6 @@ give the data in the form of json`;
                 <DialogDescription>
                 <form onSubmit={onSubmit}>
                     <div>
-
                         <h2>Add Details about your job position/role, Job description and years of experience</h2>
                         <div className="mt-7 my-2">
                             <label htmlFor="">Job Role/Job posistion</label>
