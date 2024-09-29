@@ -19,10 +19,12 @@ function StartInterview({params}) {
     const [mockInterviewQuestions, setMockInterviewQuestions] = useState();
     const [activeQuestionIndex, setActiveQuestionIndex] = useState(0);
 
+    // Run GetInterviewDetails only once when component mounts or when params.interviewId changes
     useEffect(() => {
-        console.log(params?.interviewId);
-        GetInterviewDetails();
-    });
+        if (params?.interviewId) {
+            GetInterviewDetails();
+        }
+    }, [params?.interviewId]); // Add dependency array with interviewId
 
     //this is for getting the interview details
     const GetInterviewDetails=async ()=>{
