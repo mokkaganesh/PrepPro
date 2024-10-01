@@ -14,7 +14,7 @@ export async function POST(req, res) {
         "public_metadata": {},
         "redirect_url": "https://prep-pro.vercel.app/",
         "notify": true,
-        "ignore_existing": false,
+        "ignore_existing": true,
         "expires_in_days": 1
     };
 
