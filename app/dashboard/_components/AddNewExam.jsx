@@ -62,13 +62,13 @@ and provide the correct answer
 
 {
 
-question1 :{question :{""},options:[],correct:option}
+question1 :{question :{""},options:[],correct:option index}
 
-question2:{question :{""},options:[],correct:option}
+question2:{question :{""},options:[],correct:option index}
 
 .....
 
-question n :{question :{""},options:[],correct:option}
+question n :{question :{""},options:[],correct:option index}
 
 }
 
