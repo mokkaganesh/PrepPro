@@ -17,6 +17,7 @@ import OutputDetails from "./OutputDetails";
 import ThemeDropdown from "./ThemeDropdown";
 import LanguagesDropdown from "./LanguagesDropdown";
 import { defaultCodesSnippet } from "../constants/defaultCodes";
+// import { Button } from "@/components/ui/button";
 
 const Landing = () => {
   const [code, setCode] = useState(defaultCodesSnippet['62']); // Default code for Java
@@ -24,7 +25,7 @@ const Landing = () => {
   const [outputDetails, setOutputDetails] = useState(null);
   const [processing, setProcessing] = useState(null);
   const [theme, setTheme] = useState("cobalt");
-  const [language, setLanguage] = useState(languageOptions[25]); // Set default language (Java)
+  const [language, setLanguage] = useState(languageOptions[4]); // Set default language (Java)
 
   const enterPress = useKeyPress("Enter");
   const ctrlPress = useKeyPress("Control");
@@ -70,7 +71,7 @@ const Landing = () => {
     setProcessing(true);
 
     const formData = {
-      language_id: language.id,
+      language_id: language?.id,
       source_code: btoa(code),
       stdin: btoa(customInput),
     };
@@ -185,7 +186,7 @@ const Landing = () => {
           {isMounted && <LanguagesDropdown onSelectChange={onSelectChange} />}
         </div>
         <div className="px-4 py-2">
-          {isMounted && (
+          {isMounted  &&(
             <ThemeDropdown handleThemeChange={handleThemeChange} theme={theme} />
           )}
         </div>
