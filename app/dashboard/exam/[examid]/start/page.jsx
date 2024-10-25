@@ -12,6 +12,7 @@ function ExamPage({ params }) {
   const [generatedExamQuestions, setGeneratedExamQuestions] = useState([]);
   const [selectedAnswers, setSelectedAnswers] = useState([]);
   const [result, setResult] = useState(null);
+  const [timeRemaining, setTimeRemaining] = useState(null); // in seconds
   const router = useRouter();
 
   useEffect(() => {
@@ -33,9 +34,34 @@ function ExamPage({ params }) {
       setExamData(result[0]);
 
       setSelectedAnswers(new Array(questionsArray.length).fill(null));
+
+      // Set total time in seconds: 1.25 minutes per question
+      const totalTime = questionsArray.length * 1.25 * 60; 
+      setTimeRemaining(totalTime);
     } catch (error) {
       console.error("Error fetching exam details:", error);
     }
+  };
+
+  // Timer logic using useEffect with setTimeout
+  useEffect(() => {
+    if (timeRemaining > 0) {
+      const timeout = setTimeout(() => {
+        setTimeRemaining((prevTime) => prevTime - 1);
+      }, 1000);
+
+      return () => clearTimeout(timeout);
+    } else if (timeRemaining === 0) {
+      alert("Time is up! Submitting the quiz.");
+      validateAnswers(); // Auto-submit when time runs out
+    }
+  }, [timeRemaining]);
+
+  // Format time as mm:ss
+  const formatTime = (seconds) => {
+    const minutes = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${String(minutes).padStart(2, "0")}:${String(secs).padStart(2, "0")}`;
   };
 
   const enterFullScreen = () => {
@@ -67,7 +93,7 @@ function ExamPage({ params }) {
 
     const validationResults = generatedExamQuestions.map((question, index) => ({
       question: question.question,
-      options : question.options,
+      options: question.options,
       selectedAnswerIndex: selectedAnswers[index],
       correctAnswerIndex: question.correct,
       isCorrect: question.correct === selectedAnswers[index],
@@ -79,17 +105,23 @@ function ExamPage({ params }) {
       validationResults,
     });
 
+    sessionStorage.setItem('quizResults', JSON.stringify({
+      totalQuestions: generatedExamQuestions.length,
+      correctCount,
+      validationResults,
+    }));
 
-    
     router.push(`/dashboard/exam/${params?.examid}/feedback`);
   };
-  useEffect(()=>{
-    sessionStorage.setItem('quizResults',JSON.stringify(result));
-  },[result])
 
   return (
     <div className="container mx-auto p-6">
-      <h2 className="text-2xl font-bold mb-4">Exam Details</h2>
+      <div className="flex justify-between items-center">
+        <h2 className="text-2xl font-bold">Exam Details</h2>
+        <div className={`text-lg font-bold ${timeRemaining <= 60 ? 'text-red-500' : 'text-green-500'}`}>
+          Time Remaining: {formatTime(timeRemaining)}
+        </div>
+      </div>
 
       {examData ? (
         <>
@@ -140,7 +172,6 @@ function ExamPage({ params }) {
             )}
           </div>
 
-          
           <Button className="mt-6" onClick={validateAnswers}>
             Submit
           </Button>
