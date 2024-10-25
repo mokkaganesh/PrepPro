@@ -6,10 +6,10 @@ import { languageOptions } from "../constants/languageOptions";
 const LanguagesDropdown = ({ onSelectChange }) => {
   return (
     <Select
-      placeholder={`Filter By Category`}
+      placeholder={`Select Language`}
       options={languageOptions}
       styles={customStyles}
-      defaultValue={languageOptions[4]}
+      defaultValue={languageOptions[4]} // Default to Java
       onChange={(selectedOption) => onSelectChange(selectedOption)}
     />
   );

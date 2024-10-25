@@ -3,12 +3,9 @@
 import React, { useEffect, useState } from "react";
 import CodeEditorWindow from "./CodeEditorWindow";
 import axios from "axios";
-import { classnames } from "../utils/general";
 import { languageOptions } from "../constants/languageOptions";
-
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
 import { defineTheme } from "../lib/defineTheme";
 import useKeyPress from "../hooks/useKeyPress";
 import OutputWindow from "./OutputWindow";
@@ -17,10 +14,9 @@ import OutputDetails from "./OutputDetails";
 import ThemeDropdown from "./ThemeDropdown";
 import LanguagesDropdown from "./LanguagesDropdown";
 import { defaultCodesSnippet } from "../constants/defaultCodes";
-// import { Button } from "@/components/ui/button";
 
 const Landing = () => {
-  const [code, setCode] = useState(defaultCodesSnippet['62']); // Default code for Java
+  const [code, setCode] = useState(defaultCodesSnippet["62"]); // Default code for Java (ID 62)
   const [customInput, setCustomInput] = useState("");
   const [outputDetails, setOutputDetails] = useState(null);
   const [processing, setProcessing] = useState(null);
@@ -36,24 +32,25 @@ const Landing = () => {
     setIsMounted(true);
   }, []);
 
-  
-  
+  // Handle Language Dropdown Change
   const onSelectChange = (selectedLanguage) => {
     console.log("Selected Language...", selectedLanguage);
     const langId = selectedLanguage.id;
+
+    // Get the default code for the selected language
+    const newCode = defaultCodesSnippet[langId + ""] || "// No default code available for this language.";
     
-    // Update the code based on the selected language's default code snippet
-    const newCode = defaultCodesSnippet[langId + ""] || "";
-    
+    // Update the code and selected language
+    setCode(newCode);
     setLanguage(selectedLanguage);
   };
-  
+
   useEffect(() => {
     if (enterPress && ctrlPress) {
       handleCompile();
     }
   }, [ctrlPress, enterPress]);
-  
+
   const onChange = (action, data) => {
     switch (action) {
       case "code": {
@@ -65,7 +62,6 @@ const Landing = () => {
       }
     }
   };
-  
 
   const handleCompile = async () => {
     setProcessing(true);
@@ -78,12 +74,12 @@ const Landing = () => {
 
     const options = {
       method: "POST",
-      url: 'https://judge0-ce.p.rapidapi.com/submissions',
+      url: "https://judge0-ce.p.rapidapi.com/submissions",
       params: { base64_encoded: "true", fields: "*" },
       headers: {
         "content-type": "application/json",
-        "X-RapidAPI-Host": 'judge0-ce.p.rapidapi.com',
-        "X-RapidAPI-Key": 'ec7937d4cemsh1781781967eb74bp1c20d7jsn54df7aaa727e',
+        "X-RapidAPI-Host": "judge0-ce.p.rapidapi.com",
+        "X-RapidAPI-Key": "ec7937d4cemsh1781781967eb74bp1c20d7jsn54df7aaa727e",
       },
       data: formData,
     };
@@ -107,8 +103,8 @@ const Landing = () => {
       url: `https://judge0-ce.p.rapidapi.com/submissions/${token}`,
       params: { base64_encoded: "true", fields: "*" },
       headers: {
-        "X-RapidAPI-Host": 'judge0-ce.p.rapidapi.com',
-        "X-RapidAPI-Key": 'ec7937d4cemsh1781781967eb74bp1c20d7jsn54df7aaa727e',
+        "X-RapidAPI-Host": "judge0-ce.p.rapidapi.com",
+        "X-RapidAPI-Key": "ec7937d4cemsh1781781967eb74bp1c20d7jsn54df7aaa727e",
       },
     };
     try {
@@ -186,9 +182,7 @@ const Landing = () => {
           {isMounted && <LanguagesDropdown onSelectChange={onSelectChange} />}
         </div>
         <div className="px-4 py-2">
-          {isMounted  &&(
-            <ThemeDropdown handleThemeChange={handleThemeChange} theme={theme} />
-          )}
+          {isMounted && <ThemeDropdown handleThemeChange={handleThemeChange} theme={theme} />}
         </div>
       </div>
       <div className="flex flex-row space-x-4 items-start px-4 py-4">
@@ -202,17 +196,11 @@ const Landing = () => {
         </div>
         <div className="right-container flex flex-shrink-0 w-[30%] flex-col">
           <div className="flex flex-col items-end">
-            <CustomInput
-              customInput={customInput}
-              setCustomInput={setCustomInput}
-            />
+            <CustomInput customInput={customInput} setCustomInput={setCustomInput} />
             <button
               onClick={handleCompile}
               disabled={!code}
-              className={classnames(
-                "mt-4 border-2 border-black z-10 rounded-md shadow-[5px_5px_0px_0px_rgba(0,0,0)] px-4 py-2 hover:shadow transition duration-200 bg-white flex-shrink-0",
-                !code ? "opacity-50" : ""
-              )}
+              className="mt-4 border-2 border-black z-10 rounded-md shadow-[5px_5px_0px_0px_rgba(0,0,0)] px-4 py-2 hover:shadow transition duration-200 bg-white flex-shrink-0"
             >
               {processing ? "Processing..." : "Compile and Execute"}
             </button>
