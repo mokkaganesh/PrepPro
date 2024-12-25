@@ -30,13 +30,15 @@ function ExamPage({ params }) {
       const jsonMockResp = result[0]?.examQuestions;
 
       const questionsArray = Object.values(jsonMockResp);
-      setGeneratedExamQuestions(questionsArray);
+      // console.log(questionsArray);
+      setGeneratedExamQuestions(questionsArray[0]);
+      // console.log(result[0]);
       setExamData(result[0]);
 
-      setSelectedAnswers(new Array(questionsArray.length).fill(null));
+      setSelectedAnswers(new Array(questionsArray[0].length).fill(null));
 
       // Set total time in seconds: 1.25 minutes per question
-      const totalTime = questionsArray.length * 1.25 * 60; 
+      const totalTime = questionsArray[0].length * 1.25 * 60; 
       setTimeRemaining(totalTime);
     } catch (error) {
       console.error("Error fetching exam details:", error);
@@ -129,7 +131,7 @@ function ExamPage({ params }) {
             <strong>Created By:</strong> {examData.createdBy}
           </p>
           <p className="mb-4">
-            <strong>Created At:</strong> {new Date(examData.createdAt).toLocaleDateString()}
+            <strong>Created At:</strong> {examData.createdAt}
           </p>
 
           <div className="space-y-6">
